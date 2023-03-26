@@ -1,46 +1,52 @@
-import React from "react";
-import "./Product.css";
+import React, { useCallback, useEffect } from "react";
 import { useStateValue } from "./StateProvider";
+import "./Product.css";
 
-function Product({ id, title, image, price, rating }) {
+ //const getItems=()=>{
+ //let allList=localStorage.getItem('list');
+ //console.log(allList);
+  // if(allList){     return JSON.parse(localStorage.getItem('list'));
+//     return[];
+  //  }
+//}
+
+function Product(props) {
   const [{ basket }, dispatch] = useStateValue();
 
-  const addToBasket = () => {
-    // dispatch the item into the data layer
+  const addToBasket = (item) => {
     dispatch({
       type: "ADD_TO_BASKET",
       item: {
-        id: id,
-        title: title,
-        image: image,
-        price: price,
-        rating: rating,
+        id: props.data.id,
+        title: props.data.title,
+        image: props.data.image,
+        category: props.data.category,
+        price: props.data.price,
+        rating: props.data.rating,
       },
     });
   };
-
   return (
     <div className="product">
-      <div className="product__info">
-        <p>{title}</p>
-        <p className="product__price">
-          <small>$</small>
-          <strong>{price}</strong>
+      <div className="productInfo">
+        <p>{props.data.title}</p>
+        <p className="productPrice">
+          <strong>{`price $: ${props.data.price}`}</strong>
         </p>
-        <div className="product__rating">
-          {Array(rating)
+        <div className="productRating">
+          {Array(props.data.rating)
             .fill()
-            .map((_, i) => (
-              <p>🌟</p>
+            .map((i) => (
+              <p key={i}>❤️</p>
             ))}
         </div>
       </div>
 
-      <img src={image} alt="" />
-
+      <img src={props.data.image} alt="#" />
       <button onClick={addToBasket}>Add to Basket</button>
     </div>
   );
 }
-
 export default Product;
+//<button onClick={addToBasket}>Add to Basket</button>
+
